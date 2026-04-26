@@ -78,9 +78,6 @@ const Home = () => {
                   Explore Research <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-border/60 backdrop-blur bg-card/30">
-                <Link to="/live">View Live Dashboard</Link>
-              </Button>
             </div>
 
             <div className="flex gap-8 pt-8 border-t border-border/40">
