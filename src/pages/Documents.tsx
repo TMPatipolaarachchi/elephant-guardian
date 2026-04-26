@@ -21,7 +21,12 @@ type ProjectDocument = {
 };
 
 const docs: ProjectDocument[] = [
-  { name: "Project Charter", desc: "Foundational scope, stakeholders and success criteria.", status: "Available", files: [] },
+  {
+    name: "Project Taf",
+    desc: "Foundational scope, stakeholders and success criteria.",
+    status: "Available",
+    files: [{ label: "IT4010 TAF", path: "/doc/Taf/IT4010-TAF-2025%20July%20real.pdf", type: "pdf" }],
+  },
   {
     name: "Proposal Document",
     desc: "Approved research proposal with literature review and plan.",
@@ -49,6 +54,26 @@ const Documents = () => {
   const [selectedFiles, setSelectedFiles] = useState<DocumentFile[]>([]);
   const [activeFileIndex, setActiveFileIndex] = useState<number>(0);
   const [docContent, setDocContent] = useState<string>("");
+
+  const getFileNameFromPath = (filePath: string) => {
+    const fileName = filePath.split("/").pop() ?? "document";
+    return decodeURIComponent(fileName);
+  };
+
+  const downloadFile = (file: DocumentFile) => {
+    const link = document.createElement("a");
+    link.href = file.path;
+    link.download = getFileNameFromPath(file.path);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleDownload = (doc: ProjectDocument) => {
+    if (!doc.files.length) return;
+
+    doc.files.forEach((file) => downloadFile(file));
+  };
 
   const loadMarkdownFile = async (filePath: string) => {
     try {
@@ -151,7 +176,12 @@ const Documents = () => {
                   >
                     <Eye className="h-3.5 w-3.5 mr-1.5" /> View
                   </Button>
-                  <Button size="sm" disabled={!available} className="flex-1 bg-gradient-primary text-primary-foreground border-0 hover:opacity-90">
+                  <Button
+                    size="sm"
+                    disabled={!available || d.files.length === 0}
+                    onClick={() => handleDownload(d)}
+                    className="flex-1 bg-gradient-primary text-primary-foreground border-0 hover:opacity-90"
+                  >
                     <Download className="h-3.5 w-3.5 mr-1.5" /> Download
                   </Button>
                 </div>

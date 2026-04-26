@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Github, Mail, MapPin, Radar } from "lucide-react";
+import { Mail, MapPin, Radar } from "lucide-react";
 
 export const Footer = () => {
   return (
@@ -47,10 +47,6 @@ export const Footer = () => {
                 <a href="mailto:railguard@my.sliit.lk" className="hover:text-primary transition-colors">
                   railguard@my.sliit.lk
                 </a>
-              </li>
-              <li className="flex items-start gap-2">
-                <Github className="h-4 w-4 mt-0.5 text-primary shrink-0" />
-                <span>github.com/sliit-railguard</span>
               </li>
             </ul>
           </div>
