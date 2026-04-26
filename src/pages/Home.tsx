@@ -187,10 +187,7 @@ const Home = () => {
               <div className="space-y-4">
                 <img src={herdImg} alt="Family of Sri Lankan elephants in jungle" loading="lazy" width={1200} height={800}
                   className="rounded-2xl aspect-[4/5] object-cover border border-border/60" />
-                <div className="glass rounded-2xl p-5">
-                  <div className="text-3xl font-display font-semibold text-gradient-primary">5</div>
-                  <div className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">Pillar nodes deployed</div>
-                </div>
+             
               </div>
               <div className="space-y-4 mt-8">
                 <div className="glass rounded-2xl p-5">
