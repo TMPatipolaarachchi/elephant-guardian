@@ -6,13 +6,27 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
+const PROJECT_EMAIL = "railguard31@gmail.com";
+
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: integrate with Lovable Cloud edge function or email service
-    toast.success("Message sent — we'll get back to you soon.");
+
+    const subject = encodeURIComponent(`[RailGuard] ${form.subject}`);
+    const body = encodeURIComponent(
+      `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
+    );
+    const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(PROJECT_EMAIL)}&su=${subject}&body=${body}`;
+    const mailtoUrl = `mailto:${PROJECT_EMAIL}?subject=${subject}&body=${body}`;
+
+    const composeWindow = window.open(gmailComposeUrl, "_blank", "noopener,noreferrer");
+    if (!composeWindow) {
+      window.location.href = mailtoUrl;
+    }
+
+    toast.success("Email compose opened. Please review and send.");
     setForm({ name: "", email: "", subject: "", message: "" });
   };
 
@@ -28,8 +42,8 @@ const Contact = () => {
           {/* Info */}
           <div className="lg:col-span-2 space-y-4">
             {[
-              { icon: Mail, label: "Project Email", value: "railguard@my.sliit.lk" },
-              { icon: Phone, label: "Phone", value: "+94 11 754 4801" },
+              { icon: Mail, label: "Project Email", value: PROJECT_EMAIL, href: `mailto:${PROJECT_EMAIL}` },
+              { icon: Phone, label: "Phone", value: "+94719161426" },
               { icon: Building2, label: "University", value: "Sri Lanka Institute of Information Technology" },
               { icon: MapPin, label: "Department", value: "Department of Information Technology, Malabe" },
             ].map((c) => (
@@ -39,7 +53,13 @@ const Contact = () => {
                 </div>
                 <div>
                   <div className="text-xs font-mono uppercase tracking-wider text-muted-foreground">{c.label}</div>
-                  <div className="mt-1 font-display">{c.value}</div>
+                  {c.href ? (
+                    <a href={c.href} className="mt-1 inline-block font-display hover:text-primary transition-colors">
+                      {c.value}
+                    </a>
+                  ) : (
+                    <div className="mt-1 font-display">{c.value}</div>
+                  )}
                 </div>
               </div>
             ))}
